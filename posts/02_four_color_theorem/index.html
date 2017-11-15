@@ -1,0 +1,631 @@
+<html>
+  <head>
+    <title>The Four Color Theorem</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="interactive explanation of the four color theorem">
+    <meta name="keywords" content="graph theory,networks,math,visualization,interactive,education,complexity">
+    <meta name="author" content="Alex Kudlick">
+    <style>
+      .content-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        text-align: center;
+      }
+      .center-wrapper {
+        text-align: center;
+      }
+      .center-wrapper .graph, .center-wrapper img {
+        display: inline-block;
+      }
+      .three-graph-container {
+        text-align: justify;
+        font-size: 0.1px; /* IE 9/10 fix */
+      }
+      .three-graph-container .graph {
+        display: inline-block;
+      }
+      .three-graph-container:after {
+        content: '';
+        width: 100%; /* Ensures justification for single lines */
+        display: inline-block;
+      }
+      footer {
+        margin: 150px 0 50px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content-wrapper" id="content-wrapper">
+      <h1>The Four Color Theorem</h1>
+      <p>
+      The Four Color Theorem is a mathematical statement about maps. All the example maps I found
+      on the internet were too complicated to use for an intro, so I decided to make this shitty drawing
+      instead:
+      </p>
+
+      <div class="center-wrapper">
+        <img src="./shitty_graph.png" id="shitty-graph-img" alt="shitty map" />
+      </div>
+
+      <p>
+      If you squint, you can see that this is the same thing as a graph - you just shrink all the regions to
+      a circle, and connect the circles if the regions were next to each other in the graph:
+      </p>
+
+      <div class="center-wrapper">
+        <div id="shitty-graph" class="graph"></div>
+      </div>
+
+      <p>
+      The four color theorem says that you only need four colors to label any shitty drawing like mine
+      (or its corresponding graph) so that no two adjacent regions are the same color. That means that if you take a map
+      of the United States, of Europe, even with all the weird country borders in the middle there, and give
+      each country or state a color, you'll only need four different colors to label the whole thing.
+      </p>
+      <p>
+      Some maps don't need all four colors. Some can be colored with two or three. A map that could be colored
+      with one color wouldn't be very interesting, so we'll ignore those ones.
+      </p>
+
+      <h3>Complexity</h3>
+
+      <p>
+      What is this about colors? Why should anyone care? Why did I bother to write this blog post?
+      In a word, <strong>complexity</strong>. We can take the number of colors required to color a
+      graph as an indication of its complexity. More complex graphs will require more colors. To illustrate
+      this, let's take a look at some graphs that require different numbers of colors, and see if we
+      can tell the difference. Go ahead and color the following graphs by <em>clicking</em> or
+      <em>touching</em> the nodes:
+      </p>
+
+      <div class="center-wrapper">
+        <div id="two-color-graph" class="graph"></div>
+      </div>
+
+      <div class="center-wrapper">
+        <div id="three-color-graph" class="graph"></div>
+      </div>
+
+      <div class="center-wrapper">
+        <div id="four-color-graph" class="graph"></div>
+      </div>
+
+      <p>
+      The graphs above respectively require two, three, and four colors to color.
+      My hope with this demonstration is to show that the graphs that require more colors are
+      more <em>complex</em>, or at least more disorganized. The two color graph is very well
+      organized; it feels like there is a rule governing which nodes can be connected. The next
+      graphs get more and more interconnections.
+      </p>
+
+      <h3>Software</h3>
+
+      <p>
+      The first thing that struck me, as a software engineer, is that <em>four colors is not very many</em>.
+      It seems astounding that <em>any</em> graph could be colored with four colors; I feel like if I drew a
+      graph of some of the codebases I've worked on, with edges connected objects that communicate, they could
+      easily require dozens of color. For example, here is a graph of the code powering this page:
+      </p>
+
+      <div class="center-wrapper">
+        <div id="graph-graph" class="graph"></div>
+      </div>
+
+      <p>
+      This is not a very complicated piece of code. It's one of the simpler pieces of code that I've worked on.
+      If you take a codebase that has been around for several years, It would be orders of magnitude more complicated.
+      </p>
+
+      <p>
+      So, as you've guessed, there is a caveat to the four color theorem. The graph has to be <em>planar</em>. That means
+      no edges can cross each other. It has to be able to embedded on a two dimensional plane without crossings.
+      That means that if you have a graph which has crossings, which can't be embedded in a plane, the four color theorem
+      doesn't apply. It could require more than four colors, but you would need at least three dimensions to draw it without
+      crossings.
+      </p>
+      <h3>Conclusion</h3>
+      <p>
+      The Four Color Theorem reveals a remarkable relationship between <em>space</em> and <em>complexity</em>. In some important
+      way, graphs which occupy only two dimensions are less complex than those that occupy three or more.
+      Why should that be the case?
+      </p>
+      <p>
+      In linear algebra, the dimensions of a space indicate the degrees of freedom. More dimensions mean more ways in which things
+      can vary. More ways to vary means more complex spaces.
+      </p>
+      <footer class="footer">
+        <p>Posted by: Alex Kudlick</p>
+        <p>
+        If you're interested in the content here, and would like to engage more, you
+        can follow me on <a href="https://plus.google.com/+AlexKudlick">Google+</a>. You may
+        also be interested in my <a href="https://wwtawwtac.libsyn.com/">my podcast about code.</a>
+        </p>
+        <p>
+        I'm looking for software consulting work. If you have a complex problem that can
+        be addressed by software, <a href="mailto:adkudlick@gmail.com">get in touch</a>.
+        </p>
+        <p>Powered by <a href="https://github.com/mauriciopoppe/greuler">greuler</a></p>
+        <p><a href="../../index.html">back</a></p>
+      </footer>
+      </div>
+      <script src="../../vendor/d3.min.js"></script>
+      <script src="../../vendor/cola.v3.min.js"></script>
+      <script src="../../vendor/greuler.min.js"></script>
+      <script src="./graphs.js"></script>
+      <script type="text/javascript">
+var screenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width);
+var isSmall = screenWidth < 1000;
+if (isSmall) {
+  document.getElementById('shitty-graph-img').width = 400;
+}
+var fourColorChoices = [ '#5b41fc', '#fcf95d', '#fc2f38', '#3ba226' ];
+function newGraph(element, opts) {
+  var state = new InMemoryState();
+  var adapter = new GreulerAdapter({ greuler: greuler });
+  var actionQueue = new ActionQueue();
+  var component = graphfactory.newGraphComponent(Object.assign({
+    document: document,
+    state: new InMemoryState(),
+    adapter: new GreulerAdapter({ greuler: greuler }),
+    actionQueue: new ActionQueue(),
+    colorChoices: fourColorChoices,
+    allowLabels: false,
+    allowAddNodes: false,
+    allowAddEdges: false,
+    nodeSize: isSmall ? 22 : undefined,
+    edgeDistance: isSmall ? 100 : undefined,
+    width: isSmall ? 500 : 300,
+    height: isSmall ? 500 : 300,
+  }, opts));
+  component.attachTo(element);
+  return component;
+}
+var shittyGraph = newGraph(document.getElementById('shitty-graph'), {
+  initialNodes: [
+        {
+          id: 0,
+        },
+        {
+          id: 1,
+          color: '#fcf95d',
+        },
+        {
+          id: 2,
+          color: '#fc2f38',
+        },
+        {
+          id: 3,
+        },
+        {
+          id: 4,
+          color: '#3ba226',
+        },
+        {
+          id: 5,
+          color: '#fc2f38',
+        },
+      ],
+      initialEdges: [
+        {
+          source: 0,
+          target: 1,
+        },
+        {
+          source: 0,
+          target: 5,
+        },
+        {
+          source: 0,
+          target: 2,
+        },
+        {
+          source: 2,
+          target: 1,
+        },
+        {
+          source: 2,
+          target: 3,
+        },
+        {
+          source: 4,
+          target: 3,
+        },
+        {
+          source: 5,
+          target: 1,
+        },
+        {
+          source: 5,
+          target: 4,
+        },
+        {
+          source: 1,
+          target: 4,
+        },
+      ],
+});
+
+var twoColorGraph = newGraph(document.getElementById('two-color-graph'), {
+  width: isSmall ? 500 : 400,
+  height: isSmall ? 550 : 450,
+  initialNodes: [
+    {
+      id: 0,
+    },
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+    {
+      id: 5,
+    },
+    {
+      id: 6,
+    },
+    {
+      id: 7,
+    },
+    {
+      id: 8,
+    },
+    {
+      id: 9,
+    },
+  ],
+  initialEdges: [
+    {
+      source: 0,
+      target: 1,
+    },
+    {
+      source: 0,
+      target: 2,
+    },
+    {
+      source: 0,
+      target: 3,
+    },
+    {
+      source: 5,
+      target: 2,
+    },
+    {
+      source: 5,
+      target: 8,
+    },
+    {
+      source: 9,
+      target: 2,
+    },
+    {
+      source: 7,
+      target: 5,
+    },
+    {
+      source: 6,
+      target: 9,
+    },
+    {
+      source: 4,
+      target: 9,
+    },
+  ],
+});
+
+var threeColorGraph = newGraph(document.getElementById('three-color-graph'), {
+  height: isSmall ? 600 : 500,
+  initialNodes: [
+    {
+      id: 0,
+    },
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+    {
+      id: 5,
+    },
+    {
+      id: 6,
+    },
+    {
+      id: 7,
+    },
+    {
+      id: 8,
+    },
+    {
+      id: 9,
+    },
+  ],
+  initialEdges: [
+    {
+      source: 0,
+      target: 1,
+    },
+    {
+      source: 0,
+      target: 4,
+    },
+    {
+      source: 3,
+      target: 0,
+    },
+    {
+      source: 3,
+      target: 1,
+    },
+    {
+      source: 7,
+      target: 3,
+    },
+    {
+      source: 7,
+      target: 4,
+    },
+    {
+      source: 9,
+      target: 3,
+    },
+    {
+      source: 9,
+      target: 7,
+    },
+    {
+      source: 8,
+      target: 4,
+    },
+    {
+      source: 8,
+      target: 7,
+    },
+    {
+      source: 6,
+      target: 7,
+    },
+    {
+      source: 6,
+      target: 8,
+    },
+    {
+      source: 6,
+      target: 9,
+    },
+    {
+      source: 5,
+      target: 0,
+    },
+    {
+      source: 5,
+      target: 1,
+    },
+    {
+      source: 2,
+      target: 5,
+    },
+  ],
+});
+
+var fourColorGraph = newGraph(document.getElementById('four-color-graph'), {
+  initialNodes: [
+    {
+      id: 0,
+    },
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+    {
+      id: 5,
+    },
+    {
+      id: 6,
+    },
+    {
+      id: 7,
+    },
+    {
+      id: 8,
+    },
+    {
+      id: 9,
+    },
+  ],
+  initialEdges: [
+    {
+      source: 8,
+      target: 1,
+    },
+    {
+      source: 8,
+      target: 2,
+    },
+    {
+      source: 8,
+      target: 5,
+    },
+    {
+      source: 8,
+      target: 6,
+    },
+    {
+      source: 7,
+      target: 1,
+    },
+    {
+      source: 7,
+      target: 5,
+    },
+    {
+      source: 7,
+      target: 8,
+    },
+    {
+      source: 9,
+      target: 1,
+    },
+    {
+      source: 9,
+      target: 6,
+    },
+    {
+      source: 9,
+      target: 8,
+    },
+    {
+      source: 4,
+      target: 2,
+    },
+    {
+      source: 4,
+      target: 6,
+    },
+    {
+      source: 4,
+      target: 8,
+    },
+    {
+      source: 0,
+      target: 1,
+    },
+    {
+      source: 0,
+      target: 5,
+    },
+    {
+      source: 0,
+      target: 7,
+    },
+    {
+      source: 3,
+      target: 0,
+    },
+    {
+      source: 3,
+      target: 1,
+    },
+    {
+      source: 3,
+      target: 9,
+    },
+  ],
+});
+var graphGraph = newGraph(document.getElementById('graph-graph'), {
+  width: 500,
+  height: 500,
+//  allowLabels: true,
+  initialNodes: [
+    {
+      color: '#2980B9',
+      label: 'Graph',
+      id: 0,
+    },
+    {
+      id: 1,
+      color: '#8c28b7',
+      label: 'Adapter',
+    },
+    {
+      id: 2,
+      color: '#28b92b',
+      label: 'LabelSet',
+    },
+    {
+      id: 3,
+      color: '#28b92b',
+      label: 'EditMode',
+    },
+    {
+      id: 4,
+      color: '#db190f',
+      label: 'State',
+    },
+    {
+      id: 5,
+      color: '#8c28b7',
+      label: 'Greuler',
+    },
+    {
+      id: 6,
+      color: '#28b92b',
+      label: 'ComponentManager',
+    },
+    {
+      id: 7,
+      color: '#2980B9',
+      label: 'Animator',
+    },
+  ],
+  initialEdges: [
+    {
+      source: 0,
+      target: 1,
+    },
+    {
+      source: 0,
+      target: 2,
+    },
+    {
+      source: 0,
+      target: 3,
+    },
+    {
+      source: 0,
+      target: 4,
+    },
+    {
+      source: 5,
+      target: 1,
+    },
+    {
+      source: 6,
+      target: 2,
+    },
+    {
+      source: 2,
+      target: 4,
+    },
+    {
+      source: 3,
+      target: 1,
+    },
+    {
+      source: 3,
+      target: 2,
+    },
+    {
+      source: 7,
+      target: 3,
+    },
+  ],
+});
+      </script>
+  </body>
+</html>
